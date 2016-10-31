@@ -3,13 +3,13 @@ from flask_wtf import FlaskForm
 from wtforms import TextAreaField, TextField, BooleanField, validators
 
 ##################################################################
-# Form Name: LyricForm
+# Form Name: LyricsForm
 # Fields: lyrics(string)
 # Explanation: Form used in the submit view and template, which
 #              receives the lyrics of a song to be categorized.
 ##################################################################
 
-class LyricForm(FlaskForm):
+class LyricsForm(FlaskForm):
     lyrics = TextAreaField(u'Metal song lyrics', [validators.DataRequired(
         message='Please submit lyrics from a metal song'
     )])
