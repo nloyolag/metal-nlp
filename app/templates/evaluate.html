@@ -33,31 +33,11 @@
                     </p>
                 </div>
                 <div class="field">
-                    {{ render_field(form.evaluation{{loop.index}}) }}
+                    {{ render_field(eval_fields[loop.index]) }}
                 </div>
             </div>
         {% endif %}
     {% endfor %}
-    <div class="evaluation">
-        <p>{{cluster_info['']}}</p>
-        {{ render_field(form.evaluation1) }}
-    </div>
-    <div class="evaluation">
-        <p>{{cluster_info['']}}</p>
-        {{ render_field(form.evaluation2) }}
-    </div>
-    <div class="evaluation">
-        <p>{{cluster_info['']}}</p>
-        {{ render_field(form.evaluation3) }}
-    </div>
-    <div class="evaluation">
-        <p>{{cluster_info['']}}</p>
-        {{ render_field(form.evaluation4) }}
-    </div>
-    <div class="evaluation">
-        <p>{{cluster_info['']}}</p>
-        {{ render_field(form.evaluation5) }}
-    </div>
     <button type="submit" class="waves-effect waves-light btn" name="submit">Submit Evaluation
         <i class="material-icons right">send</i>
     </button>

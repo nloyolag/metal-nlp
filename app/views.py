@@ -39,7 +39,7 @@ def submit_view():
 
 @app.route('/evaluation', methods=['GET', 'POST'])
 def evaluation_view():
-    form = CoordinateForm()
+    form = EvaluationForm()
     if request.method == 'POST' and form.validate():
         results = {
             'email': form.email.data,
@@ -53,7 +53,19 @@ def evaluation_view():
         return redirect(url_for('thanks_view'))
     else:
         cluster_info = session['cluster_info']
-        return render_template("evaluate.html", cluster_info=cluster_info, form=form)
+        eval_fields = [
+            form.evaluation1,
+            form.evaluation2,
+            form.evaluation3,
+            form.evaluation4,
+            form.evaluation5
+        ]
+        return render_template(
+            "evaluate.html",
+            cluster_info=cluster_info,
+            eval_fields=eval_fields,
+            form=form
+        )
 
 ##################################################################
 # View Name: thanks_view

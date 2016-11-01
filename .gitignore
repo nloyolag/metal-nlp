@@ -90,3 +90,5 @@ ENV/
 
 darklyrics/
 darklyrics/*
+app/static/data
+app/static/data/*

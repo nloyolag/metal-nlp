@@ -1,18 +1,21 @@
 import pandas as pd
 import numpy as np
 import sklearn
+import joblib
 import re
+import os
 import csv
 from sklearn.externals import joblib
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.cluster import KMeans
+from app import APP_STATIC, APP_ROOT
 
 def predict_cluster(lyrics):
 
     # Get dataframes and clusters
-    data = pd.read_pickle("../darklyrics/clustered_lyrics.pkl")
-    original_data = pd.read_pickle("../darklyrics/data_filtered_original.pkl")
-    km = joblib.load('../darklyrics/doc_cluster_big.pkl')
+    data = pd.read_pickle(os.path.join(APP_STATIC, 'data/clustered_lyrics.pkl'))
+    original_data = pd.read_pickle(os.path.join(APP_STATIC, 'data/clustered_lyrics.pkl'))
+    km = joblib.load(os.path.join(APP_STATIC, 'data/doc_cluster_big.pkl'))
 
     # Build vocabulary of existing clusters
     vectorizer = TfidfVectorizer(
@@ -28,7 +31,7 @@ def predict_cluster(lyrics):
     new_data = {
         "artist": "new",
         "cluster": 0,
-        "cluster_labels": "",
+        "frequent_words": "",
         "x": 0,
         "y": 0
     }
@@ -78,7 +81,7 @@ def predict_cluster(lyrics):
     return resulting_dict
 
 def save_results(results):
-    with open('evaluations.csv', 'r+b') as f:
+    with open(os.path.join(APP_ROOT, 'evaluations.csv'), 'r+b') as f:
         header = next(csv.reader(f))
         dict_writer = csv.DictWriter(f, header, -999)
         dict_writer.writerow(results)
