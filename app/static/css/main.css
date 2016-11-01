@@ -1,0 +1,62 @@
+body {
+    font-family: 'Open Sans', sans-serif;
+    text-align: center;
+    background-color: #222222;
+}
+
+strong {
+    font-weight: 700;
+}
+
+.content {
+    width: 80%;
+    margin: 0 auto;
+    display: inline-block;
+    color: #EEEEEE;
+}
+
+.errors li {
+    background-color: #FF6868;
+    padding: 10px 25px;
+    display: inline-block;
+    color: white;
+    font-family: 'Open Sans', sans-serif;
+}
+
+h3 {
+    font-size: 38px;
+    padding-bottom: 20px;
+}
+
+h4 {
+    font-size: 27px;
+    padding-bottom: 10px;
+}
+
+h6 {
+    font-size: 20px;
+}
+
+.lyrics-form {
+    margin-top: 15px;
+}
+
+.evaluation-form {
+    margin-top: 28px;
+}
+
+.please {
+    margin-top: 20px;
+}
+
+.errors {
+    margin-bottom: 20px;
+}
+
+.data {
+    margin-top: 80px;
+}
+
+.submit-eval {
+    margin-top: 50px;
+}

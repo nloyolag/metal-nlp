@@ -6,7 +6,7 @@
 
 <h1>Metal Lyric Recommendation</h1>
 <h2>Submit the lyrics to a song and receive recommendations of other songs!</h2>
-<form class="upload-form" method="post" action="/" enctype="multipart/form-data">
+<form class="lyrics-form" method="post" action="/" enctype="multipart/form-data">
     {{ form.csrf_token }}
     {{ render_field(form.lyrics) }}
     <button type="submit" class="waves-effect waves-light btn" name="submit">Send Lyrics
