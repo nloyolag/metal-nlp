@@ -11,6 +11,8 @@
 <h3>
     Genre: {{cluster_info['new_data']['genre_label']}}
 </h3>
+<h3>Most Frequent Words</h3>
+<h6>cluster_info['new_data']['frequent_words']</h6>
 <h4>Please evaluate the recommendations given to you.</h4>
 <form class="upload-form" method="post" action="/coordinates" enctype="multipart/form-data">
     {{ form.csrf_token }}

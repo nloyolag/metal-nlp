@@ -24,13 +24,31 @@ class TestSubmitView(unittest.TestCase):
         self.app = app.app.test_client()
 
     def test_view_render(self):
-        pass
+        response = self.app.get('/')
+        self.assertTrue('lyrics' in response.data)
+        self.assertEquals(response.status_code, 200)
 
     def test_view_error(self):
-        pass
+        response = self.app.post(
+            '/',
+            content_type='multipart/form-data',
+            data={
+                'lyrics': ''
+            }
+        )
+        self.assertTrue('Please submit lyrics from a metal song' in response.data)
 
     def test_form_submission(self):
-        pass
+        response = self.app.post(
+            '/',
+            content_type='multipart/form-data',
+            data={
+                'lyrics': 'Satan is glorious.'
+            },
+            follow_redirects=False
+        )
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(urlparse(response.location).path, '/evaluation')
 
 ##################################################################
 # Test Suite Name: TestEvaluationView
@@ -48,15 +66,64 @@ class TestEvaluationView(unittest.TestCase):
         app.app.config['TESTING'] = True
         app.app.config['WTF_CSRF_ENABLED'] = False
         self.app = app.app.test_client()
+        with self.app.session_transaction() as sess:
+            sess['cluster_info'] = {
+                'new_data': {
+                    'topic_label': 'Gore',
+                    'genre_label': 'Death Metal',
+                    'frequent_words': 'guts blood',
+                    'lyrics': ['yeah', 'killing']
+                },
+                2018: {
+                    'album': 'Human',
+                    'artist': 'death',
+                    'title': 'Flattening of Emotions',
+                    'year': 1991,
+                    'lyrics': ['Where is the person that could have been']
+                }
+            }
 
     def test_view_render(self):
-        pass
+        response = self.app.get('/evaluation')
+        self.assertTrue('email' in response.data)
+        self.assertTrue('evaluation1' in response.data)
+        self.assertTrue('evaluation2' in response.data)
+        self.assertTrue('evaluation3' in response.data)
+        self.assertTrue('evaluation4' in response.data)
+        self.assertTrue('evaluation5' in response.data)
+        self.assertEquals(response.status_code, 200)
 
     def test_view_error(self):
-        pass
+        response = self.app.post(
+            '/',
+            content_type='multipart/form-data',
+            data={
+                'email': '',
+                'evaluation1': None,
+                'evaluation2': None,
+                'evaluation3': None,
+                'evaluation4': None,
+                'evaluation5': None
+            }
+        )
+        self.assertTrue('Please provide your email' in response.data)
+        self.assertTrue('Please evaluate the recommendation' in response.data)
 
     def test_form_submission(self):
-        pass
+        response = self.app.post(
+            '/',
+            content_type='multipart/form-data',
+            data={
+                'email': 'chuck_schuldinner@gmail.com',
+                'evaluation1': True,
+                'evaluation2': True,
+                'evaluation3': True,
+                'evaluation4': True,
+                'evaluation5': True
+            }
+        )
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(urlparse(response.location).path, '/thanks')
 
 ##################################################################
 # Test Suite Name: TestThanksView
@@ -74,4 +141,6 @@ class TestThanksView(unittest.TestCase):
         self.app = app.app.test_client()
 
     def test_view_render(self):
-        pass
+        response = self.app.get('/thanks')
+        self.assertTrue('Thanks for submitting your response!' in response.data)
+        self.assertEquals(response.status_code, 200)
