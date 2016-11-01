@@ -4,4 +4,61 @@
 
 {% block content %}
 
+<h2>The song you submitted belongs to the following:</h2>
+<h3>
+    Topic: {{cluster_info['new_data']['topic_label']}}
+</h3>
+<h3>
+    Genre: {{cluster_info['new_data']['genre_label']}}
+</h3>
+<h4>Please evaluate the recommendations given to you.</h4>
+<form class="upload-form" method="post" action="/coordinates" enctype="multipart/form-data">
+    {{ form.csrf_token }}
+    {{ render_field(form.email) }}
+    {% for key, value in cluster_info.iteritems() %}
+        {% if key != 'new_data' %}
+            <div class="evaluation">
+                <div class="data">
+                    <h6><strong>Album:</strong> value['album']</h6>
+                    <h6><strong>Artist:</strong> value['artist']</h6>
+                    <h6><strong>Song:</strong> value['title']</h6>
+                    <h6><strong>Year:</strong> value['year']</h6>
+                    <h6><strong>Lyrics</strong></h6>
+                    <p>
+                        {% for line in value['lyrics'] %}
+                            {{ line }}
+                        {% endfor %}
+                    </p>
+                </div>
+                <div class="field">
+                    {{ render_field(form.evaluation{{loop.index}}) }}
+                </div>
+            </div>
+        {% endif %}
+    {% endfor %}
+    <div class="evaluation">
+        <p>{{cluster_info['']}}</p>
+        {{ render_field(form.evaluation1) }}
+    </div>
+    <div class="evaluation">
+        <p>{{cluster_info['']}}</p>
+        {{ render_field(form.evaluation2) }}
+    </div>
+    <div class="evaluation">
+        <p>{{cluster_info['']}}</p>
+        {{ render_field(form.evaluation3) }}
+    </div>
+    <div class="evaluation">
+        <p>{{cluster_info['']}}</p>
+        {{ render_field(form.evaluation4) }}
+    </div>
+    <div class="evaluation">
+        <p>{{cluster_info['']}}</p>
+        {{ render_field(form.evaluation5) }}
+    </div>
+    <button type="submit" class="waves-effect waves-light btn" name="submit">Submit Evaluation
+        <i class="material-icons right">send</i>
+    </button>
+</form>
+
 {% endblock %}

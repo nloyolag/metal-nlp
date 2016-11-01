@@ -3,6 +3,7 @@
 import os
 from flask import request, render_template, redirect, url_for, send_from_directory, flash, session
 from forms import LyricsForm, EvaluationForm
+from methods import predict_cluster, save_results
 from app import app
 
 ##################################################################
@@ -19,7 +20,7 @@ from app import app
 def submit_view():
     form = LyricsForm()
     if request.method == 'POST' and form.validate():
-        result = do_something()
+        result = predict_cluster(form.lyrics.data)
         session['cluster_info'] = result
         return redirect(url_for('evaluation_view'))
     else:
