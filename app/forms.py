@@ -31,7 +31,7 @@ class LyricsForm(FlaskForm):
 class EvaluationForm(FlaskForm):
     email = TextField('Email', [validators.DataRequired(
         message='Please provide your email'
-    )])
+    )], render_kw={"placeholder": "Email"})
     evaluation1 = BooleanField('Evaluation 1', [validators.DataRequired(
         message='Please evaluate the recommendation'
     )])

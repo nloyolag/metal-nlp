@@ -14,7 +14,7 @@ def predict_cluster(lyrics):
 
     # Get dataframes and clusters
     data = pd.read_pickle(os.path.join(APP_STATIC, 'data/clustered_lyrics.pkl'))
-    original_data = pd.read_pickle(os.path.join(APP_STATIC, 'data/clustered_lyrics.pkl'))
+    original_data = pd.read_pickle(os.path.join(APP_STATIC, 'data/data_filtered_original.pkl'))
     km = joblib.load(os.path.join(APP_STATIC, 'data/doc_cluster_big.pkl'))
 
     # Build vocabulary of existing clusters
