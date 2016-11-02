@@ -1,17 +1,17 @@
 # -*- coding: utf-8 -*-
 from flask_wtf import FlaskForm
-from wtforms import TextAreaField, TextField, BooleanField, validators
+from wtforms import TextField, BooleanField, validators
 
 ##################################################################
-# Form Name: LyricsForm
-# Fields: lyrics(string)
+# Form Name: ArtistForm
+# Fields: artist(string)
 # Explanation: Form used in the submit view and template, which
-#              receives the lyrics of a song to be categorized.
+#              receives the name of an artist to be queried.
 ##################################################################
 
-class LyricsForm(FlaskForm):
-    lyrics = TextAreaField(u'Metal song lyrics', [validators.DataRequired(
-        message='Please submit lyrics from a metal song'
+class ArtistForm(FlaskForm):
+    artist = TextField(u'Metal artist', [validators.DataRequired(
+        message='Please submit a metal artist'
     )])
 
 ##################################################################
@@ -32,18 +32,8 @@ class EvaluationForm(FlaskForm):
     email = TextField('Email', [validators.DataRequired(
         message='Please provide your email'
     )], render_kw={"placeholder": "Email"})
-    evaluation1 = BooleanField('Evaluation 1', [validators.DataRequired(
-        message='Please evaluate the recommendation'
-    )])
-    evaluation2 = BooleanField('Evaluation 2', [validators.DataRequired(
-        message='Please evaluate the recommendation'
-    )])
-    evaluation3 = BooleanField('Evaluation 3', [validators.DataRequired(
-        message='Please evaluate the recommendation'
-    )])
-    evaluation4 = BooleanField('Evaluation 4', [validators.DataRequired(
-        message='Please evaluate the recommendation'
-    )])
-    evaluation5 = BooleanField('Evaluation 5', [validators.DataRequired(
-        message='Please evaluate the recommendation'
-    )])
+    evaluation1 = BooleanField('Evaluation 1', default=False)
+    evaluation2 = BooleanField('Evaluation 2', default=False)
+    evaluation3 = BooleanField('Evaluation 3', default=False)
+    evaluation4 = BooleanField('Evaluation 4', default=False)
+    evaluation5 = BooleanField('Evaluation 5', default=False)

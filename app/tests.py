@@ -11,7 +11,7 @@ import views
 # Included tests:
 #   - GET: Test if the view renders correctly
 #   - POST: Test the error message when submitting the form
-#           icnorrectly
+#           incorrectly
 #   - POST: Test a correct form submission
 ##################################################################
 
@@ -24,7 +24,7 @@ class TestSubmitView(unittest.TestCase):
 
     def test_view_render(self):
         response = self.app.get('/')
-        self.assertTrue('lyrics' in response.data)
+        self.assertTrue('artist' in response.data)
         self.assertEquals(response.status_code, 200)
 
     def test_view_error(self):
@@ -32,23 +32,32 @@ class TestSubmitView(unittest.TestCase):
             '/',
             content_type='multipart/form-data',
             data={
-                'lyrics': ''
+                'artist': ''
             }
         )
-        self.assertTrue('Please submit lyrics from a metal song' in response.data)
+        self.assertTrue('Please submit a metal artist' in response.data)
+
+    def test_unknown_artist_error(self):
+        response = self.app.post(
+            '/',
+            content_type='multipart/form-data',
+            data={
+                'artist': 'Belinda'
+            }
+        )
+        self.assertTrue('The submitted artist is not available.' in response.data)
 
     def test_form_submission(self):
-        pass
-        # response = self.app.post(
-        #     '/',
-        #     content_type='multipart/form-data',
-        #     data={
-        #         'lyrics': 'Satan is glorious.'
-        #     },
-        #     follow_redirects=False
-        # )
-        # self.assertEqual(response.status_code, 302)
-        # self.assertEqual(urlparse(response.location).path, '/evaluation')
+        response = self.app.post(
+            '/',
+            content_type='multipart/form-data',
+            data={
+                'artist': 'Opeth'
+            },
+            follow_redirects=False
+        )
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(urlparse(response.location).path, '/evaluation')
 
 ##################################################################
 # Test Suite Name: TestEvaluationView
@@ -72,14 +81,13 @@ class TestEvaluationView(unittest.TestCase):
                     'topic_label': 'Gore',
                     'genre_label': 'Death Metal',
                     'frequent_words': 'guts blood',
-                    'lyrics': ['yeah', 'killing']
+                    'artist': 'Carcass'
                 },
                 2018: {
                     'album': 'Human',
                     'artist': 'death',
                     'title': 'Flattening of Emotions',
-                    'year': 1991,
-                    'lyrics': ['Where is the person that could have been']
+                    'year': 1991
                 }
             }
 

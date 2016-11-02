@@ -5,11 +5,11 @@
 {% block content %}
 
 <h1>Metal Lyric Recommendation</h1>
-<h2>Submit the lyrics to a song and receive recommendations of other songs!</h2>
+<h2>Submit a metal artist and receive recommendations of other songs!</h2>
 <form class="lyrics-form" method="post" action="/" enctype="multipart/form-data">
     {{ form.csrf_token }}
-    {{ render_field(form.lyrics) }}
-    <button type="submit" class="waves-effect waves-light btn" name="submit">Send Lyrics
+    {{ render_field(form.artist) }}
+    <button type="submit" class="waves-effect waves-light btn" name="submit">Send Artist
         <i class="material-icons right">send</i>
     </button>
 </form>

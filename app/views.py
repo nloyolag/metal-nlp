@@ -3,7 +3,7 @@
 import os
 import pickle
 from flask import request, render_template, redirect, url_for, session
-from forms import LyricsForm, EvaluationForm
+from forms import ArtistForm, EvaluationForm
 from methods import predict_cluster, save_results
 from app import app
 from app import APP_STATIC, APP_ROOT
@@ -20,9 +20,12 @@ from app import APP_STATIC, APP_ROOT
 
 @app.route('/', methods=['GET', 'POST'])
 def submit_view():
-    form = LyricsForm()
+    form = ArtistForm()
     if request.method == 'POST' and form.validate():
-        result = predict_cluster(form.lyrics.data)
+        result = predict_cluster(form.artist.data)
+        if result == None:
+            form.artist.errors.append('The submitted artist is not available.')
+            return render_template("index.html", form=form)
         with open(os.path.join(APP_STATIC, 'data/prediction_data.pkl'), 'wb') as f:
             pickle.dump(result, f, pickle.HIGHEST_PROTOCOL)
         return redirect(url_for('evaluation_view'))
