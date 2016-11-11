@@ -10,7 +10,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.cluster import KMeans
 from app import APP_STATIC, APP_ROOT
 
-def predict_cluster(artist):
+def predict_cluster(artist, mode):
 
     # Get dataframes containing cluster information
     data = pd.read_pickle(os.path.join(APP_STATIC, 'data/clustered_lyrics.pkl'))
@@ -34,7 +34,10 @@ def predict_cluster(artist):
     artist_list = [row['artist'] for i, row in artist_sample.iterrows()]
     song_sample = pd.DataFrame()
     for i in range(0,5):
-        song_sample = song_sample.append(original_data[original_data.artist == artist_list[i]].sample(1))
+        if mode == "NORMAL":
+            song_sample = song_sample.append(original_data[original_data.artist == artist_list[i]].sample(1))
+        elif mode == "RANDOM":
+            song_sample = song_sample.append(original_data.sample(1))
     resulting_dict = song_sample.to_dict(orient='index')
 
     new_data = {
@@ -46,8 +49,13 @@ def predict_cluster(artist):
     resulting_dict['new_data'] = new_data
     return resulting_dict
 
-def save_results(results):
-    with open(os.path.join(APP_ROOT, 'evaluations.csv'), 'r+b') as f:
+def save_results(results, mode):
+    if mode == "NORMAL":
+        filename = 'evaluations.csv'
+    elif mode == "RANDOM":
+        filename = 'evaluations_test.csv'
+
+    with open(os.path.join(APP_ROOT, filename), 'r+b') as f:
         header = next(csv.reader(f))
         dict_writer = csv.DictWriter(f, header, -999)
         dict_writer.writerow(results)

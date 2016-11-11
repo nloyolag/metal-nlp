@@ -92,3 +92,5 @@ darklyrics/
 darklyrics/*
 app/static/data
 app/static/data/*
+app/evaluations_test.csv
+app/evaluations.csv

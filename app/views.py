@@ -8,6 +8,9 @@ from methods import predict_cluster, save_results
 from app import app
 from app import APP_STATIC, APP_ROOT
 
+# mode = "NORMAL"
+mode = "RANDOM"
+
 ##################################################################
 # View Name: submit_view
 # Methods: GET, POST
@@ -22,7 +25,7 @@ from app import APP_STATIC, APP_ROOT
 def submit_view():
     form = ArtistForm()
     if request.method == 'POST' and form.validate():
-        result = predict_cluster(form.artist.data)
+        result = predict_cluster(form.artist.data, mode)
         if result == None:
             form.artist.errors.append('The submitted artist is not available.')
             return render_template("index.html", form=form)
@@ -55,7 +58,7 @@ def evaluation_view():
             'evaluation4': form.evaluation4.data,
             'evaluation5': form.evaluation5.data
         }
-        save_results(results)
+        save_results(results, mode)
         return redirect(url_for('thanks_view'))
     else:
         cluster_info = {}
